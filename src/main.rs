@@ -15,7 +15,11 @@ fn main() {
     println!("Frequency:\t{}", sys.cpus()[0].frequency());
     for (index, disk) in disks.list().iter().enumerate() {
         println!("Disk {}", index + 1);
-        println!("\tName:\t\t{:?}", disk.name());
+        println!("\tName:\t\t{}", disk.name().to_string_lossy());
         println!("\tTotal space:\t{}", disk.total_space());
+        println!("\tFree space:\t{}", disk.available_space());
+        println!("\tFile system:\t{}", disk.file_system().to_string_lossy());
+        println!("\tKind:\t\t{}", disk.kind().to_string());
+        println!("\tMount point:\t{}", disk.mount_point().to_string_lossy());
     }
 }
