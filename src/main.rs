@@ -1,9 +1,9 @@
-use sysinfo::{Disks, System};
+use sysinfo::{Disks, Networks, System};
 
 fn main() {
-    let mut sys = System::new_all();
-    sys.refresh_all();
+    let sys = System::new_all();
     let disks = Disks::new_with_refreshed_list();
+    let networks = Networks::new_with_refreshed_list();
 
     println!("OS:\t\t{}", System::long_os_version().unwrap_or_default());
     println!("Total memory:\t{} bytes", sys.total_memory());
@@ -21,5 +21,10 @@ fn main() {
         println!("\tFile system:\t{}", disk.file_system().to_string_lossy());
         println!("\tKind:\t\t{}", disk.kind().to_string());
         println!("\tMount point:\t{}", disk.mount_point().to_string_lossy());
+    }
+    for (index, (interface_name, network)) in networks.list().iter().enumerate() {
+        println!("Network {}", index + 1);
+        println!("\tInterface name:\t{}", interface_name);
+        println!("\tMAC address: \t{}", network.mac_address())
     }
 }
